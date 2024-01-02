@@ -28,6 +28,11 @@ mongoose.connect(
 app.use(cors());
 
 
+app.use((req, res, next) => {
+    res.setHeader('Permissions-Policy', 'attribution-reporting=(), run-ad-auction=(), join-ad-interest-group=(), browsing-topics=()');
+    next();
+});
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({limit: '50000mb', extended: false}));
 
@@ -39,7 +44,10 @@ const AdminRoutes = require('./routes/admin');
 const SocialRoutes = require('./routes/social');
 const UserRoutes = require('./routes/user');
 
+app.get("/greet", (req, res) => {
 
+    res.send({ msg: `Welcome!` });
+});
 
 app.use('/api/auth', AuthRoutes);
 
