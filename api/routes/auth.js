@@ -43,7 +43,7 @@ router.post("/login", async (req, res) => {
             });
         } else {
             if (foundUser.comparePassword(req.body.password)) {
-                let secret = process.env.ADMIN_SECRET || 'secret';
+                let secret = process.env.SECRET || 'secret';
                 let token = jwt.sign(foundUser.toJSON(), secret, {
                     expiresIn: 604800 // 1 week
                 });
@@ -90,7 +90,7 @@ router.post('/signup/user', async (req, res) => {
                 })
             }
 
-            let secret = process.env.ADMIN_SECRET || 'secret';
+            let secret = process.env.SECRET || 'secret';
             let token = jwt.sign(newUser.toJSON(), secret, {
                 expiresIn: 604000 //1 week
             });
