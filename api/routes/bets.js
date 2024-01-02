@@ -203,7 +203,7 @@ router.delete('/bets/:betID', verifyToken, async(req, res) => {
 
 router.get('/bets/for/odds', verifyTokenSafe, async (req, res) => {       
     try {
-        
+        console.log("Hello")
         if (req.decoded) {
             let bets = await Bet.find({userID: req.decoded._id,
             league: req.query.league,
