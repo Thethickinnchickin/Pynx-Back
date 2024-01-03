@@ -98,6 +98,7 @@ BetSchema.post('init', function() {
 
         let response = JSON.parse(res.body);
         let user = await User.findById(bet.userID);
+        console.log(response)
 
         // updating scores of games bet on in real time
 
