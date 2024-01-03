@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const request = require('request');
 const User = require('./user');
-const axios = require('axios');
-
+const fetch = require('node-fetch');
 
 const BetSchema = new Schema({
     userID: {
@@ -95,17 +94,9 @@ BetSchema.post('init', async function() {
         `https://api.the-odds-api.com/v4/sports/${leagueURL}/scores/?regions=us&daysFrom=3&apiKey=${process.env.ODDS_API_KEY}`
         if (bet.lockedIn && !bet.gameCompleted) {
             try {
-
-                bet.awayScore = 0
-                try {
-                    const response = await axios.get(oddsAPI);
-                } catch (err) 
-                {
-                    bet.awayScore = 4
-                }
+                const response = await fetch(oddsAPI);
+                const responseData = await response.json();
                 
-                
-                const responseData = response.data;
                 let user = await User.findById(bet.userID);
                 bet.homeScore = 99;
     
@@ -169,6 +160,10 @@ BetSchema.post('init', async function() {
                         }
                     }
                 }
+    
+                await user.save();
+                await bet.save();
+                next();
     
             } catch (err) {
                 bet.homeScore = 55;
