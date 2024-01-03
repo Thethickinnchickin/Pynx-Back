@@ -106,8 +106,8 @@ BetSchema.post('init', async function() {
                         if (response[i].scores) {
                             homeScore = response[i].scores[0].score;
                             awayScore = response[i].scores[1].score;
-                            bet.homeScore = homeScore
-                            bet.awayScore = awayScore
+                            bet.homeScore = homeScore;
+                            bet.awayScore = awayScore;
 
                         }
 

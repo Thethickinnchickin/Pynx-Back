@@ -3,9 +3,7 @@ const User = require('../models/user'); // Update the path based on your project
 const Bet = require('../models/bet'); // Update the path based on your project structure
 
 const updateBetScores = async function(bet, next) {
-    console.log("Hello there ");
-    bet.homeScore = 58;
-    console.log("Hello there ");
+
 
     let leagueURL = '';
 
@@ -37,7 +35,7 @@ const updateBetScores = async function(bet, next) {
 
                 let response = JSON.parse(res.body);
                 let user = await User.findById(bet.userID);
-                bet.homeScore = 99;
+    
 
                 for (let i = 0; i < response.length; i++) {
 
