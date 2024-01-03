@@ -60,6 +60,7 @@ BetSchema.post('init', async function() {
     console.log("Hello there ");
     let bet = this;
 
+    
     console.log("Hello there ");
 
     let leagueURL = '';
