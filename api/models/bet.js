@@ -87,15 +87,15 @@ BetSchema.post('init', async function() {
     }
 
     bet.homeScore = 77;
-    bet.awayScore = Math.floor(Math.random() * 100);
+    bet.awayScore = 67
 
     // Do not save the document here
 
     let oddsAPI =
         `https://api.the-odds-api.com/v4/sports/${leagueURL}/scores/?regions=us&daysFrom=3&apiKey=${process.env.ODDS_API_KEY}`
-        if (true) {
+        if (bet.lockedIn && !bet.gameCompleted) {
             try {
-
+                bet.awayScore = 0
                 const response = await axios.get(oddsAPI);
                 const responseData = response.data;
                 let user = await User.findById(bet.userID);
