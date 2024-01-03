@@ -59,7 +59,7 @@ const BetSchema = new Schema({
 BetSchema.post('init', async function() {
     console.log("Hello there ");
     let bet = this;
-    bet.homeScore = 88;
+    bet.homeScore = 58;
     console.log("Hello there ");
 
     let leagueURL = '';
