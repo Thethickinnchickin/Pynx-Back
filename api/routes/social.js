@@ -10,15 +10,14 @@ const parseSocial = require('../utilities/parseSocial');
 //Follwing another user
 router.post('/newFollower',verifyToken, async (req, res) => {
     try {
-        
 
         let users = await User.find({
             '_id': { $in: [
-                mongoose.Types.ObjectId(req.decoded._id),
-                mongoose.Types.ObjectId(req.body.userFollowed)
+                new mongoose.Types.ObjectId(req.decoded._id),
+                new mongoose.Types.ObjectId(req.body.userFollowed)
             ]}
         }).exec();
-        
+
         let user;
         let followedUser;
         if(users[0]._id == req.decoded._id) {
@@ -52,6 +51,7 @@ router.post('/newFollower',verifyToken, async (req, res) => {
         })
         
     } catch(err) {
+
         res.status(500).json({
             success: false,
             message: err.message 

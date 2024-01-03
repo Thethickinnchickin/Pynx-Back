@@ -63,7 +63,7 @@ app.use('/api', BetsRoutes);
 
 
 
-const port = process.env.API_PORT;
+const port = process.env.API_PORT || 7000;
 
 server.listen(port, (err) => {
     console.log(this)
