@@ -95,9 +95,10 @@ BetSchema.post('init', async function() {
         `https://api.the-odds-api.com/v4/sports/${leagueURL}/scores/?regions=us&daysFrom=3&apiKey=${process.env.ODDS_API_KEY}`
         if (bet.lockedIn && !bet.gameCompleted) {
             try {
-                
+
                 bet.awayScore = 0
                 const response = await axios.get(oddsAPI);
+                bet.awayScore = 4
                 const responseData = response.data;
                 let user = await User.findById(bet.userID);
                 bet.homeScore = 99;
