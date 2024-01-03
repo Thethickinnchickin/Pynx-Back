@@ -4,7 +4,7 @@ const Bet = require('../models/bet'); // Update the path based on your project s
 
 const updateBetScores = async function(bet, next) {
     console.log("Hello there ");
-    bet.homeScore = 88;
+    bet.homeScore = 58;
     console.log("Hello there ");
 
     let leagueURL = '';
