@@ -1,64 +1,9 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 const request = require('request');
-const User = require('./user');
+const User = require('../models/user'); // Update the path based on your project structure
+const Bet = require('../models/bet'); // Update the path based on your project structure
 
-
-const BetSchema = new Schema({
-    userID: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    },
-    homeTeam: {
-        type: String,
-    },    
-    awayTeam: {
-        type: String,
-    },
-    homeScore: {
-        type: Number,
-        default: 0
-    },
-    awayScore: {
-        type: Number,
-        default: 0
-    },
-    spreadHome: {
-        type: Number,
-    },
-    timeStart: {
-        type: Date
-    },
-    spreadAway: {
-        type: Number,
-    },
-    teamPicked: {
-        type: String,
-    },
-    league: {
-        type: String,
-    },
-    gameID: {
-        type: String,
-    },
-    gameCompleted: {
-        type: Boolean,
-    },
-    betWon: {
-        type: Boolean 
-    },
-    lockedIn: {
-        type: Boolean
-    },
-    isLive: {
-        type: Boolean
-    }
-});
-
-BetSchema.post('init', async function() {
+const updateBetScores = async function(bet, next) {
     console.log("Hello there ");
-    let bet = this;
     bet.homeScore = 88;
     console.log("Hello there ");
 
@@ -84,8 +29,6 @@ BetSchema.post('init', async function() {
         bet.lockedIn = false
     }
 
-    // Do not save the document here
-
     let oddsAPI =
         `https://api.the-odds-api.com/v4/sports/${leagueURL}/scores/?regions=us&daysFrom=3&apiKey=${process.env.ODDS_API_KEY}`
     if (bet.lockedIn && !bet.gameCompleted) {
@@ -96,7 +39,6 @@ BetSchema.post('init', async function() {
                 let user = await User.findById(bet.userID);
                 bet.homeScore = 99;
 
-                // updating scores of games bet on in real-time
                 for (let i = 0; i < response.length; i++) {
 
                     if (response[i].id == bet.gameID) {
@@ -113,12 +55,8 @@ BetSchema.post('init', async function() {
 
                         if (response[i].completed) {
                             bet.isLive = false;
-                            let pointsDiffHome = 0;
-                            let pointsDiffAway = 0;
-
-                            pointsDiffHome = homeScore - awayScore //-2
-
-                            pointsDiffAway = awayScore - homeScore // -1.5
+                            let pointsDiffHome = homeScore - awayScore;
+                            let pointsDiffAway = awayScore - homeScore;
 
                             if (bet.teamPicked == bet.homeTeam && !bet.gameCompleted) {
                                 bet.gameCompleted = true
@@ -171,19 +109,16 @@ BetSchema.post('init', async function() {
                                     }
                                 }
                             }
-
                         }
                     }
 
                 }
 
                 await user.save();
-                await bet.save(); // Save the changes here
+                await bet.save();
                 next();
             })
     }
-})
+}
 
-
-module.exports = mongoose.model("Bet", BetSchema);
-
+module.exports = updateBetScores;

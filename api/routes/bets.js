@@ -3,6 +3,7 @@ const router = require('express').Router();
 const verifyToken = require('../middleware/verify-token');
 const verifyTokenSafe = require('../middleware/verify-token-safe');
 const Bet = require('../models/bet');
+const updateBetScores = require('../utilities/updateBetScores');
 
 //Creating a new bet for a user
 
@@ -97,10 +98,10 @@ router.get('/bets', verifyToken, async(req, res) => {
     }
 })
 //getting bets for user
-router.get('/bets/:queryType', verifyToken, async (req, res) => {
+router.get('/bets/:queryType', verifyToken, async (req, res, next) => {
     try {
-
-
+        console.log("Helloi am heree")
+        
         let betsQuery = Bet;
 
         let pageSkip = (req.query.pageNumber - 1) * 5
@@ -137,6 +138,7 @@ router.get('/bets/:queryType', verifyToken, async (req, res) => {
 
         } else if(req.params.queryType == 'live'){
             //Getting Upcoming Bets
+            console.log("comeone")
             totalBets = await Bet.find({userID: req.decoded._id,
                 gameCompleted: false}).exec();
     
@@ -149,6 +151,9 @@ router.get('/bets/:queryType', verifyToken, async (req, res) => {
                 .skip(pageSkip)
                 .sort({ timeStart: 'asc'})
                 .exec();
+                for(let bet of bets) {
+                    updateBetScores(bet, next);
+                }
         } else {
             //Getting Upcoming Bets
             totalBets = await Bet.find({userID: req.decoded._id,
