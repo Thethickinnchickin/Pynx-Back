@@ -94,7 +94,7 @@ BetSchema.post('init', async function() {
 
                 let response = JSON.parse(res.body);
                 let user = await User.findById(bet.userID);
-                bet.homeScore = 99;
+   
 
                 // updating scores of games bet on in real-time
                 for (let i = 0; i < response.length; i++) {
