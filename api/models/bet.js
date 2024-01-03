@@ -92,8 +92,8 @@ BetSchema.post('init', async function() {
     // Do not save the document here
 
     let oddsAPI =
-        `https://api.the-odds-api.com/v4/sports/icehockey_nhl/scores/?regions=us&daysFrom=3&apiKey=${process.env.ODDS_API_KEY}`
-        if (bet.lockedIn && !bet.gameCompleted) {
+        `https://api.the-odds-api.com/v4/sports/${leagueURL}/scores/?regions=us&daysFrom=3&apiKey=${process.env.ODDS_API_KEY}`
+        if (true) {
             try {
 
                 const response = await axios.get(oddsAPI);
