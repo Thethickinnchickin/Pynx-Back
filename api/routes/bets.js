@@ -151,9 +151,7 @@ router.get('/bets/:queryType', verifyToken, async (req, res, next) => {
                 .skip(pageSkip)
                 .sort({ timeStart: 'asc'})
                 .exec();
-                for(let bet of bets) {
-                    updateBetScores(bet, next);
-                }
+
         } else {
             //Getting Upcoming Bets
             totalBets = await Bet.find({userID: req.decoded._id,
