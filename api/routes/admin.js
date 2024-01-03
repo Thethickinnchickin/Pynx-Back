@@ -49,7 +49,7 @@ router.post('/signup', async (req, res) => {
                 })
             }
 
-            let adminToken = process.env.ADMIN_SECRET || 'admin secret';
+            let adminToken = process.env.ADMIN_SECRET;
             let token = jwt.sign(newUser.toJSON(), adminToken, {
                 expiresIn: 604000 //1 week
             });

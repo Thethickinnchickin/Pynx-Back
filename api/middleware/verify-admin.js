@@ -11,7 +11,7 @@ module.exports = function(req, res, next) {
 
 
     if(token) {
-        let adminToken = process.env.ADMIN_SECRET || 'admin secret';
+        let adminToken = process.env.ADMIN_SECRET;
         jwt.verify(token, adminToken, (err, decoded) => {
             if (err) {
                 res.json({

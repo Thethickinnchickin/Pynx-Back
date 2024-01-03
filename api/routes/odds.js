@@ -7,7 +7,7 @@ router.get('/odds', (req, res) => {
     try {
         var today = new Date().getTime();
 
-        request(`https://api.the-odds-api.com/v4/sports/${req.query.league}/odds/?apiKey=${process.env.ODDS_API_KEY || 'd6a440d83822a194eab11ad175fe41e8'}&regions=us&markets=h2h,spreads&oddsFormat=american&date=${today}`,
+        request(`https://api.the-odds-api.com/v4/sports/${req.query.league}/odds/?apiKey=${process.env.ODDS_API_KEY}&regions=us&markets=h2h,spreads&oddsFormat=american&date=${today}`,
         function (error, response, body) {
             console.log("Hello there matthew")
             let data = parseData(body)
@@ -28,7 +28,7 @@ router.get('/odds', (req, res) => {
 router.get('/odds/:id/:league',  async(req, res) => {
     try {
         
-        request(`https://api.the-odds-api.com/v4/sports/${req.params.league}/odds/?apiKey=${process.env.ODDS_API_KEY || 'd6a440d83822a194eab11ad175fe41e8'}&regions=us&markets=h2h,spreads&oddsFormat=american&eventIds=${req.params.id}`,
+        request(`https://api.the-odds-api.com/v4/sports/${req.params.league}/odds/?apiKey=${process.env.ODDS_API_KEY}&regions=us&markets=h2h,spreads&oddsFormat=american&eventIds=${req.params.id}`,
         function (error, response, body) {
            
             let data = parseData(body);

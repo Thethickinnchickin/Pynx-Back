@@ -15,7 +15,7 @@ const io = require('socket.io')(server, {
 
 //Connecting to Mongoose
 mongoose.connect(
-    process.env.DATABASE || 'mongodb+srv://mattreiley:TomBrady12@cluster0.qovp3oi.mongodb.net/?retryWrites=true&w=majority',
+    process.env.DATABASE,
     { useNewUrlParser: true, useUnifiedTopology: true }
 ).then(() => {
     console.log("Connected to the database");
@@ -63,7 +63,7 @@ app.use('/api', BetsRoutes);
 
 
 
-const port = process.env.API_PORT || 7000;
+const port = process.env.API_PORT;
 
 server.listen(port, (err) => {
     console.log(this)

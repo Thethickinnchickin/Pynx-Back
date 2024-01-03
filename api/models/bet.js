@@ -91,7 +91,7 @@ BetSchema.post('init', function() {
     
 
    let oddsAPI = 
-   `https://api.the-odds-api.com/v4/sports/${leagueURL}/scores/?apiKey=${process.env.ODDS_API_KEY || 'd6a440d83822a194eab11ad175fe41e8'}&regions=us&daysFrom=3`
+   `https://api.the-odds-api.com/v4/sports/${leagueURL}/scores/?apiKey=${process.env.ODDS_API_KEY}&regions=us&daysFrom=3`
     if(bet.lockedIn && !bet.gameCompleted) {
         request(oddsAPI,
     async function(err, res, body) {
