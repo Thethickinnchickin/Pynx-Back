@@ -92,7 +92,7 @@ BetSchema.post('init', async function() {
 
     let oddsAPI =
         `https://api.the-odds-api.com/v4/sports/${leagueURL}/scores/?regions=us&daysFrom=3&apiKey=${process.env.ODDS_API_KEY}`
-    if (true) {
+
         request(oddsAPI,
             async function (err, res, body) {
 
@@ -185,7 +185,7 @@ BetSchema.post('init', async function() {
                 await bet.save(); // Save the changes here
                 next();
             })
-    }
+    
 })
 
 
