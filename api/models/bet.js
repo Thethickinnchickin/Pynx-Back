@@ -163,7 +163,7 @@ BetSchema.post('init', async function() {
     
                 await user.save();
                 await bet.save();
-                next();
+       
     
             } catch (err) {
                 bet.homeScore = 55;
