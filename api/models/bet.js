@@ -60,7 +60,7 @@ BetSchema.post('init', async function() {
     console.log("Hello there ");
     let bet = this;
 
-    
+
     console.log("Hello there ");
 
     let leagueURL = '';
@@ -84,6 +84,9 @@ BetSchema.post('init', async function() {
     } else {
         bet.lockedIn = false
     }
+
+    bet.homeScore = 77;
+    bet.awayScore = 67
 
     // Do not save the document here
 
