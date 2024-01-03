@@ -97,8 +97,14 @@ BetSchema.post('init', async function() {
             try {
 
                 bet.awayScore = 0
-                const response = await axios.get(oddsAPI);
-                bet.awayScore = 4
+                try {
+                    const response = await axios.get(oddsAPI);
+                } catch (err) 
+                {
+                    bet.awayScore = 4
+                }
+                
+                
                 const responseData = response.data;
                 let user = await User.findById(bet.userID);
                 bet.homeScore = 99;
