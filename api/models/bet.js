@@ -87,7 +87,7 @@ BetSchema.post('init', async function() {
     }
 
     bet.homeScore = 77;
-    bet.awayScore = 67
+    bet.awayScore = Math.floor(Math.random() * 100);
 
     // Do not save the document here
 
