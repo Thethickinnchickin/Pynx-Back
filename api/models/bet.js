@@ -92,100 +92,106 @@ BetSchema.post('init', async function() {
 
     let oddsAPI =
         `https://api.the-odds-api.com/v4/sports/${leagueURL}/scores/?regions=us&daysFrom=3&apiKey=${process.env.ODDS_API_KEY}`
-
-        request(oddsAPI,
-            async function (err, res, body) {
-                bet.homeScore = 55;
-                bet.awayScore = 55
-                let response = JSON.parse(res.body);
-                let user = await User.findById(bet.userID);
-   
-
-                // updating scores of games bet on in real-time
-                for (let i = 0; i < response.length; i++) {
-
-                    if (response[i].id == bet.gameID) {
-                        let homeScore = 0;
-                        let awayScore = 0;
-
-                        if (response[i].scores) {
-                            homeScore = response[i].scores[0].score;
-                            awayScore = response[i].scores[1].score;
-                            bet.homeScore = homeScore;
-                            bet.awayScore = awayScore;
-
-                        }
-
-                        if (response[i].completed) {
-                            bet.isLive = false;
-                            let pointsDiffHome = 0;
-                            let pointsDiffAway = 0;
-
-                            pointsDiffHome = homeScore - awayScore //-2
-
-                            pointsDiffAway = awayScore - homeScore // -1.5
-
-                            if (bet.teamPicked == bet.homeTeam && !bet.gameCompleted) {
-                                bet.gameCompleted = true
-
-                                if (bet.spreadHome > 0) {
-
-                                    if (pointsDiffHome < (bet.spreadHome * -1)) {
-
-                                        bet.betWon = false;
-                                        user.betLoses += 1;
-
-                                    } else {
-
-                                        bet.betWon = true
-                                        user.betWins += 1;
-                                    }
-                                } else {
-
-                                    if ((bet.spreadHome * -1) > pointsDiffHome) {
-
-                                        bet.betWon = false
-                                        user.betLoses += 1;
-                                    } else {
-
-                                        bet.betWon = true
-                                        user.betWins += 1;
-                                    }
-                                }
-
-
-                            } else if (bet.teamPicked == bet.awayTeam && !bet.gameCompleted) {
-                                bet.gameCompleted = true
-                                if (bet.spreadAway > 0) {
-
-                                    if (bet.spreadAway <= pointsDiffAway) {
-                                        bet.betWon = false
-                                        user.betLoses += 1;
-                                    } else {
-                                        bet.betWon = true
-                                        user.betWins += 1;
-                                    }
-                                } else {
-
-                                    if (bet.spreadAway <= pointsDiffAway) {
-                                        bet.betWon = true
-                                        user.betWins += 1;
-                                    } else {
-                                        bet.betWon = false
-                                        user.betLoses += 1;
-                                    }
-                                }
+        try {
+            request(oddsAPI,
+                async function (err, res, body) {
+                    bet.homeScore = 55;
+                    bet.awayScore = 55
+                    let response = JSON.parse(res.body);
+                    let user = await User.findById(bet.userID);
+       
+    
+                    // updating scores of games bet on in real-time
+                    for (let i = 0; i < response.length; i++) {
+    
+                        if (response[i].id == bet.gameID) {
+                            let homeScore = 0;
+                            let awayScore = 0;
+    
+                            if (response[i].scores) {
+                                homeScore = response[i].scores[0].score;
+                                awayScore = response[i].scores[1].score;
+                                bet.homeScore = homeScore;
+                                bet.awayScore = awayScore;
+    
                             }
-
+    
+                            if (response[i].completed) {
+                                bet.isLive = false;
+                                let pointsDiffHome = 0;
+                                let pointsDiffAway = 0;
+    
+                                pointsDiffHome = homeScore - awayScore //-2
+    
+                                pointsDiffAway = awayScore - homeScore // -1.5
+    
+                                if (bet.teamPicked == bet.homeTeam && !bet.gameCompleted) {
+                                    bet.gameCompleted = true
+    
+                                    if (bet.spreadHome > 0) {
+    
+                                        if (pointsDiffHome < (bet.spreadHome * -1)) {
+    
+                                            bet.betWon = false;
+                                            user.betLoses += 1;
+    
+                                        } else {
+    
+                                            bet.betWon = true
+                                            user.betWins += 1;
+                                        }
+                                    } else {
+    
+                                        if ((bet.spreadHome * -1) > pointsDiffHome) {
+    
+                                            bet.betWon = false
+                                            user.betLoses += 1;
+                                        } else {
+    
+                                            bet.betWon = true
+                                            user.betWins += 1;
+                                        }
+                                    }
+    
+    
+                                } else if (bet.teamPicked == bet.awayTeam && !bet.gameCompleted) {
+                                    bet.gameCompleted = true
+                                    if (bet.spreadAway > 0) {
+    
+                                        if (bet.spreadAway <= pointsDiffAway) {
+                                            bet.betWon = false
+                                            user.betLoses += 1;
+                                        } else {
+                                            bet.betWon = true
+                                            user.betWins += 1;
+                                        }
+                                    } else {
+    
+                                        if (bet.spreadAway <= pointsDiffAway) {
+                                            bet.betWon = true
+                                            user.betWins += 1;
+                                        } else {
+                                            bet.betWon = false
+                                            user.betLoses += 1;
+                                        }
+                                    }
+                                }
+    
+                            }
                         }
+    
                     }
+    
+                    await user.save();
+                    await bet.save(); // Save the changes here
+                    next();
+                })
+        } catch (err) {
+            bet.homeScore = 55;
+            bet.awayScore = 55
+            bet.save();
+        }
 
-                }
-
-                await user.save();
-                await bet.save(); // Save the changes here
-                next();
-            })
     
 })
 
