@@ -18,6 +18,7 @@ router.post('/newFollower',verifyToken, async (req, res) => {
                 mongoose.Types.ObjectId(req.body.userFollowed)
             ]}
         }).exec();
+        
         let user;
         let followedUser;
         if(users[0]._id == req.decoded._id) {
