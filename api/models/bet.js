@@ -92,7 +92,8 @@ BetSchema.post('init', async function() {
 
     let oddsAPI =
         `https://api.the-odds-api.com/v4/sports/${leagueURL}/scores/?regions=us&daysFrom=3&apiKey=${process.env.ODDS_API_KEY}`
-
+        bet.homeScore = 55;
+        bet.awayScore = 55
         request(oddsAPI,
             async function (err, res, body) {
 
