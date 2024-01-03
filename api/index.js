@@ -16,12 +16,7 @@ const io = require('socket.io')(server, {
 //Connecting to Mongoose
 mongoose.connect(
     process.env.DATABASE,
-    { 
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useFindAndModify: false,
-        useCreateIndex: true
-     }
+    { useNewUrlParser: true, useUnifiedTopology: true }
 ).then(() => {
     console.log("Connected to the database");
 }).catch((err) => {
