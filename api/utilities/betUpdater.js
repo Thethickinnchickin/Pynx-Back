@@ -7,6 +7,7 @@ async function updateBetScores(bet, leagueURL) {
 
     if (bet.lockedIn && !bet.gameCompleted) {
         try {
+            console.log("Hello")
             let oddsAPI =
             `https://api.the-odds-api.com/v4/sports/${leagueURL}/scores/?regions=us&daysFrom=3&apiKey=${process.env.ODDS_API_KEY}`
             const response = await axios.get(oddsAPI);
