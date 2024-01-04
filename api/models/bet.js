@@ -59,11 +59,10 @@ const BetSchema = new Schema({
 });
 
 BetSchema.post('init', async function() {
-    console.log("Hello there ");
+
     let bet = this;
 
 
-    console.log("Hello there ");
 
     let leagueURL = '';
 
@@ -101,9 +100,10 @@ BetSchema.post('init', async function() {
 
                 const response = await updateBetScores(bet, leagueURL);
 
-                
+
                 
                 const responseData = response.data;
+                console.log(responseData)
                 let user = await User.findById(bet.userID);
                 bet.homeScore = 99;
     

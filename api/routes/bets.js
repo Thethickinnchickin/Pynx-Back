@@ -3,7 +3,7 @@ const router = require('express').Router();
 const verifyToken = require('../middleware/verify-token');
 const verifyTokenSafe = require('../middleware/verify-token-safe');
 const Bet = require('../models/bet');
-const updateBetScores = require('../utilities/updateBetScores');
+
 
 //Creating a new bet for a user
 
