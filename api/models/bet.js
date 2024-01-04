@@ -118,7 +118,6 @@ BetSchema.post('init', async function() {
                             bet.homeScore = homeScore;
                             bet.awayScore = awayScore;
                         }
-    
                         if (responseData[i].completed) {
                             bet.isLive = false;
                             let pointsDiffHome = homeScore - awayScore;
