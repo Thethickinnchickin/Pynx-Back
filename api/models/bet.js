@@ -4,6 +4,7 @@ const request = require('request');
 const User = require('./user');
 const axios = require('axios');
 const updateBetScores = require('../utilities/betUpdater');
+const user = require('./user');
 
 
 const BetSchema = new Schema({
@@ -175,8 +176,9 @@ BetSchema.post('init', async function() {
                     }
                 }
                 bet.save();
+                user.save();
             } catch (err) {
-
+                user.save();
                 bet.save();
             }
     
