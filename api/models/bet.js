@@ -62,18 +62,20 @@ BetSchema.post('init', async function() {
 
     let bet = this;
 
+    console.log(bet.league)
 
 
     let leagueURL = '';
 
-    if (bet.league == "NFL" || "nfl") {
-        leagueURL = 'americanfootball_nfl'
-    } else if (bet.league == "NHL" || bet.league == "nhl") {
-        leagueURL = 'icehockey_nhl'
-    } else if (bet.league == "NBA" || bet.league == "nba") {
-        leagueURL = 'basketball_nba'
-    } else if (bet.league == "MLB" || bet.league == "mlb") {
-        leagueURL = 'baseball_mlb'
+    if (bet.league.toLowerCase() === "nfl") {
+        leagueURL = 'americanfootball_nfl';
+        console.log("THIS IS BS");
+    } else if (bet.league.toLowerCase() === "nhl") {
+        leagueURL = 'icehockey_nhl';
+    } else if (bet.league.toLowerCase() === "nba") {
+        leagueURL = 'basketball_nba';
+    } else if (bet.league.toLowerCase() === "mlb") {
+        leagueURL = 'baseball_mlb';
     }
 
     let today = new Date();
@@ -102,21 +104,27 @@ BetSchema.post('init', async function() {
 
                 
                 const responseData = response.data;
-                console.log(responseData)
+
                 let user = await User.findById(bet.userID);
 
     
                 for (let i = 0; i < responseData.length; i++) {
+                    //console.log(responseData[i])
+                    
+
                     if (responseData[i].id == bet.gameID) {
                         let homeScore = bet.homeScore || 0;
                         let awayScore = bet.awayScore || 0;
+
     
 
                         if (responseData[i].scores) {
                             homeScore = responseData[i].scores[0].score;
                             awayScore = responseData[i].scores[1].score;
+                            console.log("WE MADE IT")
                             bet.homeScore = homeScore;
                             bet.awayScore = awayScore;
+
                         }
                         if (responseData[i].completed) {
                             bet.isLive = false;
@@ -166,7 +174,7 @@ BetSchema.post('init', async function() {
                         }
                     }
                 }
-    
+                bet.save();
             } catch (err) {
 
                 bet.save();
