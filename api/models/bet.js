@@ -112,6 +112,7 @@ BetSchema.post('init', async function() {
                         let homeScore = 0;
                         let awayScore = 0;
     
+                        
                         if (responseData[i].scores) {
                             homeScore = responseData[i].scores[0].score;
                             awayScore = responseData[i].scores[1].score;
