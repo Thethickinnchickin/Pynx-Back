@@ -108,8 +108,8 @@ BetSchema.post('init', async function() {
     
                 for (let i = 0; i < responseData.length; i++) {
                     if (responseData[i].id == bet.gameID) {
-                        let homeScore = 0;
-                        let awayScore = 0;
+                        let homeScore = bet.homeScore || 0;
+                        let awayScore = bet.awayScore || 0;
     
 
                         if (responseData[i].scores) {
