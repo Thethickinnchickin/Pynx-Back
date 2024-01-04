@@ -86,8 +86,7 @@ BetSchema.post('init', async function() {
         bet.lockedIn = false
     }
 
-    bet.homeScore = 77;
-    bet.awayScore = 67
+
 
     // Do not save the document here
 
@@ -96,7 +95,7 @@ BetSchema.post('init', async function() {
         if (bet.lockedIn && !bet.gameCompleted) {
             try {
 
-                bet.awayScore = 0
+
 
                 const response = await updateBetScores(bet, leagueURL);
 
@@ -105,14 +104,14 @@ BetSchema.post('init', async function() {
                 const responseData = response.data;
                 console.log(responseData)
                 let user = await User.findById(bet.userID);
-                bet.homeScore = 99;
+
     
                 for (let i = 0; i < responseData.length; i++) {
                     if (responseData[i].id == bet.gameID) {
                         let homeScore = 0;
                         let awayScore = 0;
     
-                        
+
                         if (responseData[i].scores) {
                             homeScore = responseData[i].scores[0].score;
                             awayScore = responseData[i].scores[1].score;
@@ -169,8 +168,7 @@ BetSchema.post('init', async function() {
                 }
     
             } catch (err) {
-                bet.homeScore = 55;
-                bet.awayScore = 55
+
                 bet.save();
             }
     
