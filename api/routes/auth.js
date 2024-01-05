@@ -20,9 +20,9 @@ router.get("/user", verifyToken,  async(req, res) => {
         let userWins = 0;
         let userLoses = 0;
         for(let bet of bets) {
-            if(bet.isWon) {
+            if(bet.betWon) {
                 userWins++;
-            } else {
+            } else if(!bet.betWon) {
                 userLoses++;
             }
         }
