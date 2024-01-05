@@ -1,11 +1,11 @@
 const user = require("../models/user");
 const { array } = require("./uploadPhoto");
 
-module.exports = function parseUsers(mainUser) {
+module.exports = function parseUsers(users, mainUser) {
     let removeableUsers = [];
     for(let user of users) {
 
-    for(let followId of mainUser.followers) {
+        for(let followId of mainUser.followers) {
 
                 if (user.followers.includes(followId)) {
                     if(!removeableUsers.includes(user)) {
@@ -48,7 +48,7 @@ module.exports = function parseUsers(mainUser) {
 
     }
 
-    
+    }
 
 
 
@@ -62,5 +62,5 @@ module.exports = function parseUsers(mainUser) {
     
 
 
-    return removeableUsers;
+    return users;
 }
