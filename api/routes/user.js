@@ -37,6 +37,8 @@ router.get('/user/:id', async(req, res) => {
     }
 });
 
+
+
 //Getting Bets for User
 router.get('/user/:id/:betType', async(req, res) => {
     try {
@@ -123,6 +125,7 @@ router.get('/user/:id/:betType', async(req, res) => {
         })
     }
 })
+
 
 
 

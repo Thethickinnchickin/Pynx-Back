@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const verifyToken = require('../middleware/verify-token');
 const User = require('../models/user');
+const Bet = require('../models/bet')
 const jwt = require('jsonwebtoken');
 
 const upload = require('../utilities/uploadPhoto');
@@ -14,11 +15,24 @@ const upload = require('../utilities/uploadPhoto');
 router.get("/user", verifyToken,  async(req, res) => {
     try {
         let foundUser = await User.findOne({_id: req.decoded._id}).exec();
+        let bets = await Bet.find({userID: req.decoded._id})
+        .exec();
+        let userWins = 0;
+        let userLoses = 0;
+        for(let bet of bets) {
+            if(bet.isWon) {
+                userWins++;
+            } else {
+                userLoses++;
+            }
+        }
         
         if (foundUser) {
             res.json({
                 success: true,
-                user: foundUser
+                user: foundUser,
+                userWins: userWins,
+                userLoses: userLoses
             })
         }
     } catch (err) {
@@ -28,6 +42,8 @@ router.get("/user", verifyToken,  async(req, res) => {
         })
     }
 })
+
+
 
 
 //User login
