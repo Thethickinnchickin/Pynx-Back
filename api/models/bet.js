@@ -139,36 +139,44 @@ BetSchema.post('init', async function() {
                                     if (pointsDiffHome < (bet.spreadHome * -1)) {
                                         bet.betWon = false;
                                         user.betLoses += 1;
-                                    } else {
+                                    } else if(pointsDiffHome > (bet.spreadHome * -1)) {
                                         bet.betWon = true;
                                         user.betWins += 1;
+                                    }else {
+                                        bet.betWon = null;
                                     }
-                                } else {
+                                } else  {
                                     if ((bet.spreadHome * -1) > pointsDiffHome) {
                                         bet.betWon = false;
                                         user.betLoses += 1;
-                                    } else {
+                                    } else if((bet.spreadHome * -1) < pointsDiffHome) {
                                         bet.betWon = true;
                                         user.betWins += 1;
+                                    }else {
+                                        bet.betWon = null;
                                     }
                                 }
                             } else if (bet.teamPicked == bet.awayTeam && !bet.gameCompleted) {
                                 bet.gameCompleted = true;
                                 if (bet.spreadAway > 0) {
-                                    if (bet.spreadAway <= pointsDiffAway) {
+                                    if (bet.spreadAway < pointsDiffAway) {
                                         bet.betWon = false;
                                         user.betLoses += 1;
-                                    } else {
+                                    } else if (bet.spreadAway > pointsDiffAway) {
                                         bet.betWon = true;
                                         user.betWins += 1;
+                                    }else {
+                                        bet.betWon = null;
                                     }
                                 } else {
-                                    if (bet.spreadAway <= pointsDiffAway) {
+                                    if (bet.spreadAway < pointsDiffAway) {
                                         bet.betWon = true;
                                         user.betWins += 1;
-                                    } else {
+                                    } else if (bet.spreadAway > pointsDiffAway) {
                                         bet.betWon = false;
                                         user.betLoses += 1;
+                                    } else {
+                                        bet.betWon = null;
                                     }
                                 }
                             }
