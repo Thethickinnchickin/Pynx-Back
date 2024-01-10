@@ -9,9 +9,7 @@ require('dotenv').config({ path: './.env'})
 const Chat = require('./models/chat');
 const Message = require('./models/message');
 const User = require('./models/user')
-const io = require('socket.io')(server, {
-    rejectUnauthorized: false,
-})
+
 
 //Connecting to Mongoose
 mongoose.connect(
@@ -61,8 +59,6 @@ app.use('/api', OddsRoutes);
 
 app.use('/api', BetsRoutes);
 
-
-
 const port = process.env.API_PORT || 7000;
 
 server.listen(port, (err) => {
@@ -73,10 +69,5 @@ server.listen(port, (err) => {
         console.log(`API: Listening on port 7000`);
     }
 })
-
-
-
-
-
 
 module.exports = app;
