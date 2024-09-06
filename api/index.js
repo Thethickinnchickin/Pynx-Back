@@ -21,9 +21,13 @@ mongoose.connect(
     console.error("Error connecting to the database:", err);
 });
 
+const corsOptions = {
+    origin: 'https://pnyx-orcin.vercel.app', // Allow this origin
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific methods
+    allowedHeaders: ['Content-Type', 'Authorization'] // Allow specific headers
+};
 
-
-app.use(cors());
+app.use(cors(corsOptions));
 
 
 app.use((req, res, next) => {
