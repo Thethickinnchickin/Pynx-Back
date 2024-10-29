@@ -38,28 +38,32 @@ router.post('/signup', async (req, res) => {
 
             let newUser = new User();
             newUser.name = 'admin';
-            newUser.password = req.body.password;
-            newUser.email = "email";
-            try {
-                await newUser.save()
-            } catch(err) {
+            if(req.password == process.env.ADMIN_PASSWORD)
+            {
+                newUser.password = req.body.password;
+                newUser.email = "email";
+                try {
+                    await newUser.save()
+                } catch(err) {
+                    res.json({
+                        success: false,
+                        message: err.message
+                    })
+                }
+    
+                let adminToken = process.env.ADMIN_SECRET;
+                let token = jwt.sign(newUser.toJSON(), adminToken, {
+                    expiresIn: 604000 //1 week
+                });
+    
+    
                 res.json({
-                    success: false,
-                    message: err.message
-                })
+                    success: true,
+                    token: token,
+                    message: "Created a new Pnyx Admin!"
+                }) 
             }
-
-            let adminToken = process.env.ADMIN_SECRET;
-            let token = jwt.sign(newUser.toJSON(), adminToken, {
-                expiresIn: 604000 //1 week
-            });
-
-
-            res.json({
-                success: true,
-                token: token,
-                message: "Created a new Pnyx Admin!"
-            })            
+           
         } catch (err) {
             res.json({
                 success: false,
