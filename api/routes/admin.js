@@ -38,7 +38,7 @@ router.post('/signup', async (req, res) => {
 
             let newUser = new User();
             newUser.name = 'admin';
-            if(req.password == process.env.ADMIN_PASSWORD)
+            if(req.body.password == process.env.ADMIN_PASSWORD)
             {
                 newUser.password = req.body.password;
                 newUser.email = "email";
