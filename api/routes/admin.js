@@ -74,5 +74,41 @@ router.post('/signup', async (req, res) => {
     
 });
 
+// Admin Login Route
+router.post('/login', async (req, res) => {
+    try {
+        // Check if the provided password matches the admin password in .env
+        const { password } = req.body;
+
+        if (!password) {
+            return res.status(400).json({ success: false, message: "Password is required." });
+        }
+
+        // Verify the password with the environment variable for admin login
+        const isPasswordValid = password === process.env.ADMIN_PASSWORD;
+
+        if (!isPasswordValid) {
+            return res.status(401).json({ success: false, message: "Invalid password." });
+        }
+
+        // Generate JWT for the admin
+        const adminPayload = { name: 'admin' }; // Customize payload if needed
+        const token = jwt.sign(adminPayload, process.env.ADMIN_SECRET, {
+            expiresIn: '1w' // Token expires in one week
+        });
+
+        res.json({
+            success: true,
+            token,
+            message: "Admin logged in successfully!"
+        });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: "Server error: " + err.message
+        });
+    }
+});
+
 
 module.exports = router
